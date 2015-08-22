@@ -52,7 +52,7 @@
                 this.className = 'upload';
 
                 startUpload(e.dataTransfer, document.getElementById('pb'), document.getElementById('pt'));
-                console.log(e.dataTransfer.files);
+
             };
         }());
         /**
