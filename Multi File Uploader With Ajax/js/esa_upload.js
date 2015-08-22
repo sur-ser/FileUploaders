@@ -1,21 +1,31 @@
 /**
  * Created by SURO on 22.08.2015.
  */
-var app = app || {};
+var esaMultiFileuploader = esaMultiFileuploader || {};
 (function (o) {
     "use strict";
 
     //Приватные методы
     var ajax, getFormData, setProgress;
 
+    /**
+     * Метод отправляющий ajax запрос к серверу
+     * @param data
+     */
     ajax = function (data) {
         var xmlhttp = new XMLHttpRequest(), uploaded;
 
+        /**
+         * Обработчик события readystatechange
+         */
         xmlhttp.addEventListener('readystatechange',function(){
+            // Удостоверяемся что данные загруженны
             if(this.readyState == 4){
+                //Если код ответа 200 то обрабатывем его иначе выкидываем ошибку
                 if(this.status == 200){
+                    //Присваемаем возвращённые данные
                     uploaded = JSON.parse(this.responseText);
-
+                    //Передаём данные для обработки
                     if(typeof  o.options.finished === 'function'){
                         o.options.finished(uploaded);
                     }
@@ -28,6 +38,10 @@ var app = app || {};
             }
         });
 
+        /**
+         * Обработчик события progress
+         * Увеличивает строку состояния
+         */
         xmlhttp.upload.addEventListener('progress',function(e){
             var percent;
 
@@ -37,10 +51,18 @@ var app = app || {};
             }
         });
 
+        //Открываем соединение
         xmlhttp.open('post', o.options.processor);
+        //Отправляем данные
         xmlhttp.send(data);
     };
 
+    /**
+     * Формирует данные в соответствии с формой
+     * для отправки запроса
+     * @param source
+     * @returns {*}
+     */
     getFormData = function (source) {
         var data = new FormData(),i;
 
@@ -53,6 +75,10 @@ var app = app || {};
         return data;
     };
 
+    /**
+     * Устанавливает прогресс строки состояния
+     * @param value
+     */
     setProgress = function(value) {
         if(o.options.progressBar !== undefined){
             o.options.progressBar.style.width = value ? value + '%' : 0;
@@ -64,6 +90,10 @@ var app = app || {};
         }
     };
 
+    /**
+     * Загрузчик
+     * @param options
+     */
     o.uploader = function(options){
         o.options = options;
 
@@ -72,4 +102,4 @@ var app = app || {};
         }
     }
 
-}(app))
+}(esaMultiFileuploader));

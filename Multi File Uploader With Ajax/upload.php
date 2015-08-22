@@ -7,10 +7,26 @@
  */
 header('Content-Type: application/json');
 
+/**
+ * @array
+ */
 $uploaded = [];
+/**
+ * Разрешённые форматы
+ * @array
+ */
 $allowed = ['mp4', 'png', 'jpg','txt'];
 
+/**
+ * Загруженные файлы
+ * @array
+ */
 $succeeded = [];
+
+/**
+ * Не загруженные файлы
+ * @array
+ */
 $failed = [];
 
 if(!empty($_FILES['file'])){
@@ -38,6 +54,7 @@ if(!empty($_FILES['file'])){
         }
     }
 
+    //Выводим результат для javascript обработчика
     if(!empty($_POST['ajax'])){
         echo json_encode([
             'succeeded' => $succeeded,

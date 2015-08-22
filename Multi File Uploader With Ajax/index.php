@@ -35,18 +35,27 @@
     <script src="js/esa_upload.js"></script>
     <script>
 
+        /**
+         * Обработчик события нажатия на загрузку
+         */
         document.getElementById('submit').addEventListener('click',function(e){
-            e.preventDefault();
+
 
             var f = document.getElementById('file'),
                 pb = document.getElementById('pb'),
                 pt = document.getElementById('pt');
-            app.uploader({
-                files: f,
-                progressBar: pb,
-                progressText: pt,
-                processor: 'upload.php',
 
+            /**
+             * Начинаем работу загрузчика
+             */
+            esaMultiFileuploader.uploader({
+                files: f, //файлы
+                progressBar: pb, //строка состояния
+                progressText: pt, //текст строки состояня
+                processor: 'upload.php', //адресс загрузчика
+
+                //окончание события
+                //добавляет информацию на страницу
                 finished: function(data){
                     var uploads = document.getElementById('uploads'),
                         succeeded = document.createElement('div'),
@@ -85,6 +94,15 @@
                     console.log('Not working');
                 }
             });
+
+            //Тормозим основное событие
+            if(e.preventDefault){
+                e.preventDefault();
+            }else if(e.stopPropagation){
+                e.stopPropagation();
+            }else{
+                return false;
+            }
 
         });
     </script>
