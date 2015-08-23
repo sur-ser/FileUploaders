@@ -6,14 +6,6 @@
  * Time: 14:11
  */
 ?>
-<!doctype html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>Мультизагрузка файлов</title>
-    <link rel="stylesheet" href="<?=$css?>">
-</head>
-<body>
 <form action="upload.php" method="post" enctype="multipart/form-data" id="upload" class="upload">
     <fieldset>
         <legend>Загрузка файлов</legend>
@@ -138,6 +130,5 @@
         }
     </script>
 </form>
-</body>
-</html>
+
 
