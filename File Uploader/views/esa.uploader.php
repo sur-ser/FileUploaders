@@ -96,7 +96,7 @@
                     for(i = 0; i < data.succeeded.length; i++){
 
                         anchor = document.createElement('a');
-                        anchor.href = 'uploads/' + data.succeeded[i].file;
+                        anchor.href = data.succeeded[i].file;
                         anchor.title = data.succeeded[i].name;
                         anchor.target = '_blank';
                         anchor.style = 'display: block; margin-bottom: 10px; width: 150px;';

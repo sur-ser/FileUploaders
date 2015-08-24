@@ -102,8 +102,8 @@ class EsaFIleUploader
                     $ext = strtolower(end($ext));
 
                     $file = md5_file($temp).time().'.'.$ext;
-
-                    if($this->_fileIsValid($name,$_FILES['file']['type'][$key],$temp) && move_uploaded_file($temp,dirname(__FILE__).'/'.$this->_uploadPath.'/'.$file) === true){
+                    $file = $this->_makePath($file);
+                    if($this->_fileIsValid($name,$_FILES['file']['type'][$key],$temp) && move_uploaded_file($temp,$file) === true){
                         $this->_succeeded[] = [
                             'name' => $name,
                             'file' => $file,
@@ -171,7 +171,7 @@ class EsaFIleUploader
         $filePath = '';
         $ext = $this->_getExt($file);
         if($this->isImageExt($ext)){
-            $filePath = $this->_uploadPath.'/'.$file;
+            $filePath = $file;
         }else{
             if(file_exists($this->_mimesImagesDir.'/'.$ext.'.png')){
                 $filePath = $this->_mimesImagesDir.'/'.$ext.'.png';
@@ -210,5 +210,16 @@ class EsaFIleUploader
         if(empty($this->_mimesList)){
             $this->_mimesList = require_once "mimes.php";
         }
+    }
+
+    private function _makePath($fileName){
+        $path = [$this->_uploadPath];
+        for($i = 0; $i < 3; $i++){
+            $path[] = substr($fileName,$i*2,2);
+        }
+        $path = implode('/',$path);
+        @mkdir($path,0755,true);
+
+        return $path.'/'.$fileName;
     }
 }
